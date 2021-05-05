@@ -1,16 +1,11 @@
 const express = require("express");
-const {
-  logger,
-  validateUserId,
-  handleErrors,
-} = require("./middleware/middleware");
+const { logger, handleErrors } = require("./middleware/middleware");
 
 const server = express();
 const usersRouter = require("./users/users-router");
 
 server.use(express.json());
 server.use(logger);
-server.use("/api/users/:id", validateUserId);
 
 server.use("/api/users", usersRouter);
 

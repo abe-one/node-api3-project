@@ -1,4 +1,4 @@
-const Posts = require("../posts/posts-model");
+const Users = require("../users/users-model");
 const { userSchema, postSchema } = require("./schemas");
 
 function logger(req, _res, next) {
@@ -12,12 +12,12 @@ function logger(req, _res, next) {
 
 function validateUserId(req, _res, next) {
   const id = req.params.id;
-  Posts.getById(id)
-    .then((post) => {
-      if (!post) {
-        next({ status: 404, message: `Post with ID ${id} does not exist` });
+  Users.getById(id)
+    .then((user) => {
+      if (!user) {
+        next({ status: 404, message: `User with ID ${id} does not exist` });
       } else {
-        req.post = post;
+        req.user = user;
         next();
       }
     })
