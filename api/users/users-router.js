@@ -31,7 +31,7 @@ router.put("/:id", validateUser, (req, res, next) => {
   Users.update(id, req.body)
     .then(async (result) => {
       if (!result) {
-        next({ message: `Unable to update user with ID ${id} ` });
+        next({ message: `Unable to update user with ID ${id}` });
       } else {
         const newUser = await Users.getById(id);
         res.status(200).json(newUser);
@@ -40,9 +40,17 @@ router.put("/:id", validateUser, (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/:id", (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
+router.delete("/:id", (req, res, next) => {
+  const user = req.user;
+  Users.remove(user.id)
+    .then(async (result) => {
+      if (!result) {
+        next({ message: `Unable to delete user with ID ${user.id}` });
+      } else {
+        res.status(200).json({ ...user, status: "deleted" });
+      }
+    })
+    .catch(next);
 });
 
 router.get("/:id/posts", (req, res) => {
