@@ -9,4 +9,12 @@ const userSchema = yup.object({
     .max(127, "name must be at most 127 chars"),
 });
 
-module.exports = { userSchema };
+const postSchema = yup.object({
+  text: yup
+    .string()
+    .trim()
+    .required("missing the required text field")
+    .max(140, "Post must be at most 280 chars"),
+});
+
+module.exports = { userSchema, postSchema };

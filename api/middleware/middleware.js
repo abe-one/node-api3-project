@@ -1,5 +1,5 @@
 const Posts = require("../posts/posts-model");
-const { userSchema } = require("./schemas");
+const { userSchema, postSchema } = require("./schemas");
 
 function logger(req, _res, next) {
   console.log(`{
@@ -10,7 +10,7 @@ function logger(req, _res, next) {
   next();
 }
 
-function validateUserId(req, res, next) {
+function validateUserId(req, _res, next) {
   const id = req.params.id;
   Posts.getById(id)
     .then((post) => {
@@ -26,20 +26,23 @@ function validateUserId(req, res, next) {
     });
 }
 
-function validateUser(req, res, next) {
-  userSchema
-    .validate(req.body, { stripUnknown: true })
+const validateBody = (schema, body, next) =>
+  schema
+    .validate(body, { stripUnknown: true })
     .then((validation) => {
-      req.body = validation;
+      body = validation;
       next();
     })
     .catch((err) => {
       next({ status: 400, message: err.message });
     });
+
+function validateUser(req, _res, next) {
+  validateBody(userSchema, req.body, next);
 }
 
-function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+function validatePost(req, _res, next) {
+  validateBody(postSchema, req.body, next);
 }
 
 function handleErrors(error, req, res, _next) {}
