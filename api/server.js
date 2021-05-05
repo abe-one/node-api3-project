@@ -1,5 +1,9 @@
 const express = require("express");
-const { logger, validateUserId } = require("./middleware/middleware");
+const {
+  logger,
+  validateUserId,
+  handleErrors,
+} = require("./middleware/middleware");
 
 const server = express();
 
@@ -14,5 +18,7 @@ server.get("/:id", (req, res) => {
 server.get("/", (_req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
+
+server.use(handleErrors);
 
 module.exports = server;

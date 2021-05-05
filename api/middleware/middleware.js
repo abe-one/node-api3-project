@@ -45,8 +45,13 @@ function validatePost(req, _res, next) {
   validateBody(postSchema, req.body, next);
 }
 
-function handleErrors(error, req, res, _next) {}
-// do not forget to expose these functions to other modules
+function handleErrors(err, req, res, next) {
+  res.status(err.status || 500).json({
+    note: "DB DEV: It's all gone wrong, horribly horribly wrong!!",
+    message: err.message,
+    stack: err.status,
+  });
+}
 
 module.exports = {
   logger,
