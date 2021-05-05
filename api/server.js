@@ -6,14 +6,13 @@ const {
 } = require("./middleware/middleware");
 
 const server = express();
+const usersRouter = require("./users/users-router");
 
 server.use(express.json());
 server.use(logger);
-server.use("/:id", validateUserId);
+server.use("/api/users/:id", validateUserId);
 
-server.get("/:id", (req, res) => {
-  res.send(`<h2>Testing ${req.params.id}</h2>`);
-});
+server.use("/api/users", usersRouter);
 
 server.get("/", (_req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
