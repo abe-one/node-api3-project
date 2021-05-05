@@ -45,11 +45,12 @@ function validatePost(req, _res, next) {
   validateBody(postSchema, req.body, next);
 }
 
-function handleErrors(err, req, res, next) {
+// eslint-disable-next-line no-unused-vars
+function handleErrors(err, _req, res, _next) {
   res.status(err.status || 500).json({
     note: "DB DEV: It's all gone wrong, horribly horribly wrong!!",
     message: err.message,
-    stack: err.status,
+    stack: err.stack,
   });
 }
 
