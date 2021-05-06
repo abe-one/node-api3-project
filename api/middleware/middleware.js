@@ -1,5 +1,5 @@
 const Users = require("../users/users-model");
-const { userSchema, postSchema } = require("./schemas");
+const { userSchema, postSchema } = require("../../shared/schemas");
 
 function logger(req, _res, next) {
   console.log(`{
