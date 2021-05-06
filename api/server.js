@@ -10,7 +10,7 @@ server.use(logger);
 
 server.use("/api/users", usersRouter);
 
-server.get("*", (_req, res) => {
+server.get("/", (_req, res) => {
   res.send(`<h2Hit the /users endpoint!</h2>`);
 });
 
