@@ -69,7 +69,7 @@ router.get("/:id/posts", (req, res, next) => {
 
 router.post("/:id/posts", validatePost, (req, res, next) => {
   Posts.insert(req.body)
-    .then((result) => res.status(200).json(result))
+    .then((result) => res.status(201).json(result))
     .catch(next);
 });
 
