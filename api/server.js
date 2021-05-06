@@ -11,7 +11,7 @@ server.use(logger);
 server.use("/api/users", usersRouter);
 
 server.get("*", (_req, res) => {
-  res.json(`<h2>Hit the /api/users endpoint!</h2>`);
+  res.send(`<h2>Hit the /api/users endpoint!</h2>`);
 });
 
 server.use(handleErrors);
