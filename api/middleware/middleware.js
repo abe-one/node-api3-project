@@ -15,7 +15,7 @@ function validateUserId(req, _res, next) {
   Users.getById(id)
     .then((user) => {
       if (!user) {
-        next({ status: 404, message: `User with ID ${id} does not exist` });
+        next({ status: 404, message: `User with ID ${id} not found` });
       } else {
         req.user = user;
         next();
@@ -42,6 +42,7 @@ function validateUser(req, _res, next) {
 }
 
 function validatePost(req, _res, next) {
+  req.body.user_id = req.user.id;
   validateBody(postSchema, req.body, next);
 }
 

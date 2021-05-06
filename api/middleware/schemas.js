@@ -13,8 +13,10 @@ const postSchema = yup.object({
   text: yup
     .string()
     .trim()
-    .required("missing the required text field")
+    .required("missing required text field")
     .max(140, "Post must be at most 280 chars"),
+
+  user_id: yup.string().trim().required("missing required user_id field"),
 });
 
 module.exports = { userSchema, postSchema };

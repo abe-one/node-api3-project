@@ -5,6 +5,7 @@ const {
   validatePost,
 } = require("../middleware/middleware");
 const Users = require("./users-model");
+const Posts = require("../posts/posts-model");
 
 const router = express.Router();
 
@@ -53,16 +54,23 @@ router.delete("/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/:id/posts", (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
+router.get("/:id/posts", (req, res, next) => {
+  const id = req.user.id;
+  Users.getUserPosts(id)
+    .then((posts) => {
+      posts.length === 0
+        ? res
+            .status(404)
+            .json({ message: `User with the ID ${id} has no posts` })
+        : res.status(200).json(posts);
+    })
+    .catch(next);
 });
 
-router.post("/:id/posts", (req, res) => {
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+router.post("/:id/posts", validatePost, (req, res, next) => {
+  Posts.insert(req.body)
+    .then((result) => res.status(200).json(result))
+    .catch(next);
 });
 
-// do not forget to export the router
 module.exports = router;
